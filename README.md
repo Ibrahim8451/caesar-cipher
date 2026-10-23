@@ -19,3 +19,10 @@ A Caesar cipher is too simple for real cryptography, but it is useful for light 
 ## Edge cases
 
 Only the 26 English letters `A`–`Z` and `a`–`z` are shifted. Digit characters are **not** rotated, even though some toy implementations rotate them; this is a deliberate choice to match the historical cipher, which never had digits. The shift may be any integer — negative values shift backward, and values larger than 26 wrap around (a shift of 29 is equivalent to 3, and 26 is the identity).
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
